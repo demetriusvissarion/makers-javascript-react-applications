@@ -42,37 +42,57 @@ name: 'Banana and cherry smoothie recipe',
 steps: ['Peel the banana', 'Remove cherry pits', 'Blend and enjoy']
 };
 
-addRecipeToPage(recipe1.name, recipe1.steps);
-addRecipeToPage(recipe2.name, recipe2.steps);
+// addRecipeToPage(recipe1.name, recipe1.steps);
+// addRecipeToPage(recipe2.name, recipe2.steps);
 
 const URL = "https://official-joke-api.appspot.com/random_joke";
 
 const getJoke = async () => {
-    try {
-        const response = await fetch(URL);
-        const joke = await response.json();
-        console.log(joke);
+    const response = await fetch(URL);
+    const joke = await response.json();
+    console.log(joke);
 
-        const jokeOfTheDayTitle = document.createElement("h3");
-        jokeOfTheDayTitle.innerText = `Joke of the day`;
-        document.body.appendChild(jokeOfTheDayTitle);
+    const jokeOfTheDayTitle = document.createElement("h3");
+    jokeOfTheDayTitle.innerText = `Joke of the day`;
+    document.body.appendChild(jokeOfTheDayTitle);
 
-        const jokeOfTheDayContent = document.createElement("p");
-        jokeOfTheDayContent.innerText = `Type: ${joke.type}`;
-        document.body.appendChild(jokeOfTheDayContent);
+    const jokeOfTheDayContent = document.createElement("p");
+    jokeOfTheDayContent.innerText = `Type: ${joke.type}`;
+    document.body.appendChild(jokeOfTheDayContent);
 
-        const jokeOfTheDaySetup = document.createElement("p");
-        jokeOfTheDaySetup.innerText = `Setup: ${joke.setup}`;
-        document.body.appendChild(jokeOfTheDaySetup);
+    const jokeOfTheDaySetup = document.createElement("p");
+    jokeOfTheDaySetup.innerText = `Setup: ${joke.setup}`;
+    document.body.appendChild(jokeOfTheDaySetup);
 
-        const jokeOfTheDayPunchline = document.createElement("p");
-        jokeOfTheDayPunchline.innerText = `Punchline: ${joke.punchline}`;
-        document.body.appendChild(jokeOfTheDayPunchline);
-    } catch (error) {
-        console.error('Error during fetch:', error);
-    }
+    const jokeOfTheDayPunchline = document.createElement("p");
+    jokeOfTheDayPunchline.innerText = `Punchline: ${joke.punchline}`;
+    jokeOfTheDayPunchline.style.display = "none"; // Hide punchline by default
+    document.body.appendChild(jokeOfTheDayPunchline);
+
+    // Add event listener to the show button
+    const showButton = document.getElementById("showButton");
+    showButton.addEventListener("click", function () {
+        // Toggle the visibility of the punchline
+        jokeOfTheDayPunchline.style.display = (jokeOfTheDayPunchline.style.display === "none") ? "block" : "none";
+    });
 };
 
-// getJoke();
+// Call the getJoke function when the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', getJoke);
 
-getJoke();
+
+document.addEventListener('DOMContentLoaded', function () {
+    const loadDataButton = document.getElementById('loadDataButton');
+    const loadedDataParagraph = document.getElementById('loadedData');
+    loadDataButton.addEventListener('click', function () {
+        fetch('https://jsonplaceholder.typicode.com/todos/1')
+            .then(response => response.json())
+            .then(data => {
+                loadedDataParagraph.innerText = `Loaded Data: ${JSON.stringify(data)}`;
+            })
+            .catch(error => {
+                console.error('Error during fetch:', error);
+            });
+    });
+});
+
