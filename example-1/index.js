@@ -44,3 +44,35 @@ steps: ['Peel the banana', 'Remove cherry pits', 'Blend and enjoy']
 
 addRecipeToPage(recipe1.name, recipe1.steps);
 addRecipeToPage(recipe2.name, recipe2.steps);
+
+const URL = "https://official-joke-api.appspot.com/random_joke";
+
+const getJoke = async () => {
+    try {
+        const response = await fetch(URL);
+        const joke = await response.json();
+        console.log(joke);
+
+        const jokeOfTheDayTitle = document.createElement("h3");
+        jokeOfTheDayTitle.innerText = `Joke of the day`;
+        document.body.appendChild(jokeOfTheDayTitle);
+
+        const jokeOfTheDayContent = document.createElement("p");
+        jokeOfTheDayContent.innerText = `Type: ${joke.type}`;
+        document.body.appendChild(jokeOfTheDayContent);
+
+        const jokeOfTheDaySetup = document.createElement("p");
+        jokeOfTheDaySetup.innerText = `Setup: ${joke.setup}`;
+        document.body.appendChild(jokeOfTheDaySetup);
+
+        const jokeOfTheDayPunchline = document.createElement("p");
+        jokeOfTheDayPunchline.innerText = `Punchline: ${joke.punchline}`;
+        document.body.appendChild(jokeOfTheDayPunchline);
+    } catch (error) {
+        console.error('Error during fetch:', error);
+    }
+};
+
+// getJoke();
+
+getJoke();
